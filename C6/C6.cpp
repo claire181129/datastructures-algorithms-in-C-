@@ -215,16 +215,15 @@ int main()
 	cout << "after reverse listA:" << listA << endl;
 	*/
 
-
-	//meld
+	
 	circularList<int> listA(10);
 	for (int i = 0; i < 10; i++)
-		listA.push_back(i);
+	listA.push_back(i);
 	circularList<int> listB(10), listC(10);
 	for (int i = 0; i < 4; i++)
-		listB.push_back(3 * i);
+	listB.push_back(3 * i);
 	for (int i = 0; i < 6; i++)
-		listC.push_back(i * 2);
+	listC.push_back(i * 2);
 	cout << "listA:" << listA << endl;
 	cout << "listB:" << listB << endl;
 	cout << "listC:" << listC << endl;
@@ -237,32 +236,30 @@ int main()
 	cout << "listC size:" << listC.size() << endl;
 	//merge
 	for (int i = 0; i < 4; i++)
-		listB.push_back(3 * i);
+	listB.push_back(3 * i);
 	for (int i = 0; i < 6; i++)
-		listC.push_back(i * 2);
+	listC.push_back(i * 2);
 	cout << "listA:" << listA << endl;
 	cout << "listB:" << listB << endl;
 	cout << "listC:" << listC << endl;
 	cout << "--merge--" << endl;
 	listA.merge(listB, listC);
-
 	cout << "listA:" << listA << endl;
-	//cout << "listA size:" << listA.size() << endl;
-	//cout << "listB size:" << listB.size() << endl;
-	//cout << "listC size:" << listC.size() << endl;
-	//for (int i = 0; i < 10; i++)
-	//	cout << i << ":  " << listA.get(i) << endl;
-	//split
-	/*
-	cout << "--split--" << endl;
-	listA.split(listB, listC);
-	cout << "listA:" << listA << endl;
-	cout << "listB:" << listB << endl;
-	cout << "listC:" << listC << endl;
+	//meld
 	cout << "listA size:" << listA.size() << endl;
 	cout << "listB size:" << listB.size() << endl;
 	cout << "listC size:" << listC.size() << endl;
-	*/
+
+	//split
+	cout << "--split--" << endl;
+	listA.split(listB, listC);
+	cout << "listA size:" << listA.size() << endl;
+	cout << "listB size:" << listB.size() << endl;
+	cout << "listC size:" << listC.size() << endl;
+	cout << "listA:" << listA << endl;
+	cout << "listB:" << listB << endl;
+	cout << "listC:" << listC << endl;
+	
 
 	//e37
 

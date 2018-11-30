@@ -25,13 +25,14 @@ public:
 	//exercise
 	void meld(circularList<T>& chainA, circularList<T>& chainB);
 	void merge(circularList<T>& chainA, circularList<T>& chainB);
+	void split(circularList<T>& chainA, circularList<T>& chainB);
 	//my method
 	void push_back(const T& theElement);
 protected:
 };
 
 template<typename T>
-circularList<T>::circularList(const circularList<T>& thheList)
+circularList<T>::circularList(const circularList<T>& theList)
 {
 	listSize = theList.listSize;
 	if (listSize == 0)
@@ -50,27 +51,29 @@ circularList<T>::circularList(const circularList<T>& thheList)
 		targetNode = targetNode->next;
 		sourceNode = sourceNode->next;
 	}
-	targetNode->next = new chainNode<T>(source->element);
+	targetNode->next = new chainNode<T>(sourceNode->element);
 	targetNode = targetNode->next;
 	targetNode->next = firstNode;
 }
 template<typename T>
 circularList<T>::~circularList()
 {
-	while (firstNode->next!=firstNode)
+	if (firstNode)
 	{
-		chainNode<T> *nextNode = firstNode->next;
-		chainNode<T>* theNode = firstNode;
-		while (theNode->next != firstNode)
+		while (firstNode->next != firstNode)
 		{
-			theNode = theNode->next;
+			chainNode<T> *nextNode = firstNode->next;
+			chainNode<T>* theNode = firstNode;
+			while (theNode->next != firstNode)
+			{
+				theNode = theNode->next;
+			}
+			delete firstNode;
+			theNode->next = firstNode = nextNode;
 		}
 		delete firstNode;
-		theNode->next = firstNode = nextNode;
+		firstNode = NULL;
 	}
-	delete firstNode;
-	firstNode = NULL;
-	cout << "deletye" << endl;
 }
 template<typename T>
 void circularList<T>::insert(int theIndex, const T& theElement)
@@ -124,7 +127,6 @@ void circularList<T>::erase(int theIndex)
 	delete deleteNode;
 	if (listSize == 0)
 		firstNode = NULL;
-	cout << "theIndex:"<< theIndex << endl;
 }
 template<typename T>
 int circularList<T>::indexOf(const T& theElement)const
@@ -209,9 +211,7 @@ void circularList<T>::merge(circularList<T>& chainA, circularList<T>& chainB)
 	auto size = this->size();
 	for (int i = 0; i<size; i++)
 		this->erase(0);
-	cout << "merge inner output list:";
-	this->output(cout);
-	cout << endl;
+
 	auto sizeA = chainA.size();
 	auto sizeB = chainB.size();
 	for (int i = 0; i < sizeA; i++)
@@ -226,7 +226,24 @@ void circularList<T>::merge(circularList<T>& chainA, circularList<T>& chainB)
 		chainA.erase(0);
 	for (int i = 0; i < sizeB; i++)
 		chainB.erase(0);
-	cout << "size: " << listSize << endl;
+}
+template<typename T>
+void circularList<T>::split(circularList<T>& chainA, circularList<T>& chainB)
+{
+	auto sizeA = chainA.size();
+	auto sizeB = chainB.size();
+	auto sizeC = this->size();
+	for (int i = 0; i < sizeA; i++)
+		chainA.erase(0);
+	for (int i = 0; i < sizeB; i++)
+		chainB.erase(0);
+	for (int i = 0; i < sizeC / 2; i++)
+	{
+		chainA.push_back(this->get(i * 2));
+		chainB.push_back(this->get(i * 2 + 1));
+	}
+	if (sizeC % 2)
+		chainA.push_back(this->get(sizeC - 1));
 }
 template<typename T>
 void circularList<T>::push_back(const T& theElement)
