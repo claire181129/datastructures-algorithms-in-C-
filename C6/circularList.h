@@ -21,11 +21,47 @@ public:
 	int indexOf(const T& theElement)const;
 	void insert(int theIndex, const T& theElement);
 	void output(ostream& out)const;
-	iterator end();
+	class iterator;
+	iterator begin() { return iterator(firstNode); }
+	iterator end() {
+		chainNode<T>* theNode = firstNode;
+		for (int i = 0; i < listSize-2; i++)
+			theNode = theNode->next;
+		return iterator(theNode);
+	}
+	class iterator {
+	public:
+		iterator(chainNode<T>* theNode = NULL) { node = theNode; }
+
+		T& operator*()const { return node->element; }
+		T* operator->()const { return &node->element; }
+
+		iterator& operator++() {
+			node = node->next;
+			return *this;
+		}
+		iterator operator++(int)
+		{
+			iterator old = *this;
+			node = node->next;
+			return old;
+		}
+		bool operator!=(const iterator right)const
+		{
+			return node != right.node;
+		}
+		bool operator==(const iterator right)const
+		{
+			return node == right.node;
+		}
+	protected:
+		chainNode<T>* node;
+	};
 	//exercise
 	void meld(circularList<T>& chainA, circularList<T>& chainB);
 	void merge(circularList<T>& chainA, circularList<T>& chainB);
 	void split(circularList<T>& chainA, circularList<T>& chainB);
+	void remove(const int& theIndex);
 	//my method
 	void push_back(const T& theElement);
 protected:
@@ -244,6 +280,20 @@ void circularList<T>::split(circularList<T>& chainA, circularList<T>& chainB)
 	}
 	if (sizeC % 2)
 		chainA.push_back(this->get(sizeC - 1));
+}
+template<typename T>
+void circularList<T>::remove(const int& theIndex)
+{
+	checkIndex(theIndex);
+	chainNode<T>* theNode = firstNode;
+	for (int i = 0; i < theIndex; i++)
+		theNode = theNode->next;
+	for (int j = theIndex; j < listSize-1; j++)
+	{
+		theNode->element = theNode->next->element;
+		theNode = theNode->next;
+	}
+	this->erase(listSize-1);
 }
 template<typename T>
 void circularList<T>::push_back(const T& theElement)

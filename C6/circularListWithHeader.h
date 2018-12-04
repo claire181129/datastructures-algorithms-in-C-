@@ -6,7 +6,11 @@
 #include"chain.h"
 #include"extendedLinearList.h"
 template<typename T>
-class circularListWithHeader :public extendedLinearList
+class circularListWithHeader :public extendedLinearList<T>
 {
+public:
+
+
+protected:
 
 };

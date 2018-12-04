@@ -215,7 +215,9 @@ int main()
 	cout << "after reverse listA:" << listA << endl;
 	*/
 
-	
+
+//E30-36
+	/*
 	circularList<int> listA(10);
 	for (int i = 0; i < 10; i++)
 	listA.push_back(i);
@@ -259,11 +261,80 @@ int main()
 	cout << "listA:" << listA << endl;
 	cout << "listB:" << listB << endl;
 	cout << "listC:" << listC << endl;
+	*/
+	
 	
 
 	//e37
+/*
+circularList<int> listA(10);
+for (int i = 0; i < 10; i++)
+listA.push_back(i);
+cout << "listA:" << listA << endl;
+listA.remove(3);
+cout << "listA:" << listA << endl;
+*/
+	
 
 	//e38
+/*
+
+*/
+
+
+
+//E43
+
+//E44
+//E45
+//E46
+//E47
+//E48
+//E49
+//E50
+//E51
+//E52
+
+//E53
+//E54
+//E55
+//E56
+//E57
+//E58
+//E59
+//E60
+//E61
+//E62
+//E63
+//E64
+//E65
+//E66
+//E67
+//E68
+//E69
+//E70
+//E71
+//E72
+
+
+//E73
+//E74
+//E75
+//E76
+//E77
+//E
+//E
+//E
+//E
+//E
+
+
+
+
+
+
+
+
 	return 0;
 }
 
