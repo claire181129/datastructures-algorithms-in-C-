@@ -12,7 +12,7 @@ struct extendedChainNode
 	{
 		this->element = element;
 	}
-	extendedChainNode(const T& element, extendedChainNode<T> *next)
+	extendedChainNode(const T& element, extendedChainNode<T> *next, extendedChainNode<T>* previous)
 	{
 		this->element = element;
 		this->next = next;

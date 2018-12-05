@@ -374,7 +374,7 @@ bool chain<T>::operator>(const chain<T>& b)const
 	{
 		if (this->get(i) > b.get(i))
 			return true;
-		else if (thie->get(i) < b.get(i))
+		else if (this->get(i) < b.get(i))
 			return false;
 	}
 	if (listSize > b.size())
@@ -410,7 +410,7 @@ bool chain<T>::operator>=(const chain<T>& b)const
 	if (listSize > b.size())
 		return true;
 	else
-		return true;
+		return false;
 }
 template<typename T>
 void chain<T>::swap(chain<T>& theChain)
