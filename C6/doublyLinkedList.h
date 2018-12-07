@@ -5,10 +5,10 @@
 #include"arrayList.h"
 using namespace std;
 template<typename T>
-class doubleLinkedList {
+class doublyLinkedList {
 public:
-	doubleLinkedList(const int& initialCapacity);
-	doubleLinkedList(const doubleLinkedList<T>& theList);
+	doublyLinkedList(const int& initialCapacity);
+	doublyLinkedList(const doublyLinkedList<T>& theList);
 
 	//ADT method
 	bool empty()const { return listSize == 0; }
@@ -58,21 +58,23 @@ public:
 	void removeRange(int fromIndex, int toIndex);
 	int lastIndexOf(const T& theElement);
 	T& operator[](int theIndex)const;
-	bool operator==(const doubleLinkedList<T> &b);
-	bool operator!=(const doubleLinkedList<T>& b)const;
-	bool operator<(const doubleLinkedList<T>& b)const;
-	bool operator>(const doubleLinkedList<T>& b)const;
-	bool operator<=(const doubleLinkedList<T>& b)const;
-	bool operator>=(const doubleLinkedList<T>& b)const;
-	void swap(doubleLinkedList<T>& theChain);
+	bool operator==(const doublyLinkedList<T> &b);
+	bool operator!=(const doublyLinkedList<T>& b)const;
+	bool operator<(const doublyLinkedList<T>& b)const;
+	bool operator>(const doublyLinkedList<T>& b)const;
+	bool operator<=(const doublyLinkedList<T>& b)const;
+	bool operator>=(const doublyLinkedList<T>& b)const;
+	void swap(doublyLinkedList<T>& theChain);
 	void fromList(const arrayList<T>& theList);
 	void toList(arrayList<T>& theList);
 	void leftShift(const int& i);
 	void reverse();
-	void merge(doubleLinkedList<T>& chainA, doubleLinkedList<T>& chainB);
-	void meld(doubleLinkedList<T>& chainA, doubleLinkedList<T>& chainB);
-	void split(doubleLinkedList<T>& chainA, doubleLinkedList<T>& chainB);
+	void merge(doublyLinkedList<T>& chainA, doublyLinkedList<T>& chainB);
+	void meld(doublyLinkedList<T>& chainA, doublyLinkedList<T>& chainB);
+	void split(doublyLinkedList<T>& chainA, doublyLinkedList<T>& chainB);
 	void insertSort();
+	void clear();
+	void zero();
 protected:
 	void checkIndex(int theIndex)const;
 	extendedChainNode<T>* firstNode;
@@ -80,7 +82,7 @@ protected:
 	int listSize;
 };
 template<typename T>
-doubleLinkedList<T>::doubleLinkedList(const int& initialCapacity)
+doublyLinkedList<T>::doublyLinkedList(const int& initialCapacity)
 {
 	if (initialCapacity < 1)
 	{
@@ -92,7 +94,7 @@ doubleLinkedList<T>::doubleLinkedList(const int& initialCapacity)
 	listSize = 0;
 }
 template<typename T>
-doubleLinkedList<T>::doubleLinkedList(const doubleLinkedList<T>& theList)
+doublyLinkedList<T>::doublyLinkedList(const doublyLinkedList<T>& theList)
 {
 	listSize = theList.listSize;
 	if (listSize == 0)
@@ -115,7 +117,7 @@ doubleLinkedList<T>::doubleLinkedList(const doubleLinkedList<T>& theList)
 	lastNode = taegetNode;
 }
 template<typename T>
-T& doubleLinkedList<T>::get(int theIndex)const
+T& doublyLinkedList<T>::get(int theIndex)const
 {
 	checkIndex(theIndex);
 	if (theIndex < listSize / 2)
@@ -134,7 +136,7 @@ T& doubleLinkedList<T>::get(int theIndex)const
 	}
 }
 template<typename T>
-int doubleLinkedList<T>::indexOf(const T& theElement)const
+int doublyLinkedList<T>::indexOf(const T& theElement)const
 {
 	extendedChainNode<T>* currentNode = firstNode;
 	int index = 0;
@@ -149,7 +151,7 @@ int doubleLinkedList<T>::indexOf(const T& theElement)const
 		return index;
 }
 template<typename T>
-void doubleLinkedList<T>::erase(int theIndex)
+void doublyLinkedList<T>::erase(int theIndex)
 {
 	checkIndex(theIndex);
 	extendedChainNode<T>* deleteNode;
@@ -178,7 +180,7 @@ void doubleLinkedList<T>::erase(int theIndex)
 	delete deleteNode;
 }
 template<typename T>
-void doubleLinkedList<T>::insert(int theIndex, const T& theElement)
+void doublyLinkedList<T>::insert(int theIndex, const T& theElement)
 {
 	if (theIndex<0 || theIndex>listSize)
 	{
@@ -215,19 +217,19 @@ void doubleLinkedList<T>::insert(int theIndex, const T& theElement)
 	listSize++;
 }
 template<typename T>
-void doubleLinkedList<T>::output(ostream& out)const
+void doublyLinkedList<T>::output(ostream& out)const
 {
 
 }
 template<typename T>
-void doubleLinkedList<T>::push_back(const T& theElement)
+void doublyLinkedList<T>::push_back(const T& theElement)
 {
 	for (extendedChainNode<T>* currentNode = firstNode; currentNode != NULL; currentNode = currentNode->next)
 		out << currentNode->element << " ";
 }
 template<typename T>
 //exercise or other
-void doubleLinkedList<T>::setSize(int theSize)
+void doublyLinkedList<T>::setSize(int theSize)
 {
 	if (listSize < theSize)
 		return;
@@ -240,7 +242,7 @@ void doubleLinkedList<T>::setSize(int theSize)
 	}
 }
 template<typename T>
-void doubleLinkedList<T>::set(int theIndex, const T& theElement)
+void doublyLinkedList<T>::set(int theIndex, const T& theElement)
 {
 	checkIndex(theIndex);
 	extendedChainNode<T>* theNode = firstNode;
@@ -258,7 +260,7 @@ void doubleLinkedList<T>::set(int theIndex, const T& theElement)
 	theNode->element = theElement;
 }
 template<typename T>
-void doubleLinkedList<T>::removeRange(int fromIndex, int toIndex)
+void doublyLinkedList<T>::removeRange(int fromIndex, int toIndex)
 {
 	checkIndex(fromIndex);
 	checkIndex(toIndex);
@@ -267,7 +269,7 @@ void doubleLinkedList<T>::removeRange(int fromIndex, int toIndex)
 		erase(theIndex);
 }
 template<typename T>
-int doubleLinkedList<T>::lastIndexOf(const T& theElement)
+int doublyLinkedList<T>::lastIndexOf(const T& theElement)
 {
 	extendedChainNode<T>* theNode = firstNode;
 	int theIndex = 0;
@@ -280,18 +282,18 @@ int doubleLinkedList<T>::lastIndexOf(const T& theElement)
 	return theInde;
 }
 template<typename T>
-ostream& operator<<(ostream& out, const extendedChainNode<T>& x)
+ostream& operator<<(ostream& out, const doublyLinkedList<T>& x)
 {
 	x.output(out);
 	return out;
 }
 template<typename T>
-T& doubleLinkedList<T>::operator[](int theIndex)const
+T& doublyLinkedList<T>::operator[](int theIndex)const
 {
 	return get(theIndex);
 }
 template<typename T>
-bool doubleLinkedList<T>::operator==(const doubleLinkedList<T> &b)
+bool doublyLinkedList<T>::operator==(const doublyLinkedList<T> &b)
 {
 	if (listSize != b.size())
 		return false;
@@ -301,7 +303,7 @@ bool doubleLinkedList<T>::operator==(const doubleLinkedList<T> &b)
 	return true;
 }
 template<typename T>
-bool doubleLinkedList<T>::operator!=(const doubleLinkedList<T>& b)const
+bool doublyLinkedList<T>::operator!=(const doublyLinkedList<T>& b)const
 {
 	if (*this == b)
 		return false;
@@ -309,7 +311,7 @@ bool doubleLinkedList<T>::operator!=(const doubleLinkedList<T>& b)const
 		return true;
 }
 template<typename T>
-bool doubleLinkedList<T>::operator<(const doubleLinkedList<T>& b)const
+bool doublyLinkedList<T>::operator<(const doublyLinkedList<T>& b)const
 {
 	for (int i = 0; i < min(listSize, b.size()); i++)
 		if (this->get(i) < b.get())
@@ -322,7 +324,7 @@ bool doubleLinkedList<T>::operator<(const doubleLinkedList<T>& b)const
 		return false;
 }
 template<typename T>
-bool doubleLinkedList<T>::operator>(const doubleLinkedList<T>& b)const
+bool doublyLinkedList<T>::operator>(const doublyLinkedList<T>& b)const
 {
 	for (int i = 0; i < min(listSize, b.size()); i++)
 		if (this->get(i) > b.get(i))
@@ -335,7 +337,7 @@ bool doubleLinkedList<T>::operator>(const doubleLinkedList<T>& b)const
 		return false;
 }
 template<typename T>
-bool doubleLinkedList<T>::operator<=(const doubleLinkedList<T>& b)const
+bool doublyLinkedList<T>::operator<=(const doublyLinkedList<T>& b)const
 {
 	for (int i = 0; i < min(listSize, b.size()); i++)
 		if (this->get(i) < b.get(i))
@@ -348,7 +350,7 @@ bool doubleLinkedList<T>::operator<=(const doubleLinkedList<T>& b)const
 		return true;
 }
 template<typename T>
-bool doubleLinkedList<T>::operator>=(const doubleLinkedList<T>& b)const
+bool doublyLinkedList<T>::operator>=(const doublyLinkedList<T>& b)const
 {
 	for (int i = 0; i < min(listSize, b.size()); i++)
 		if (this->get(i) > b.get(i))
@@ -361,7 +363,7 @@ bool doubleLinkedList<T>::operator>=(const doubleLinkedList<T>& b)const
 		return false;
 }
 template<typename T>
-void doubleLinkedList<T>::swap(doubleLinkedList<T>& theChain)
+void doublyLinkedList<T>::swap(doublyLinkedList<T>& theChain)
 {
 	extendedChainNode<T>* tmpNode = theChain.firstNode;
 	theChain.firstNode = firstNode;
@@ -372,38 +374,38 @@ void doubleLinkedList<T>::swap(doubleLinkedList<T>& theChain)
 	listSize = tmpSize;
 }
 template<typename T>
-void doubleLinkedList<T>::fromList(const arrayList<T>& theList)
+void doublyLinkedList<T>::fromList(const arrayList<T>& theList)
 {
 	this->setSize(theList.size())
 		for (int i = 0; i < theList.size(); i++)
 			this->insert(i, theList.get(i));
 }
 template<typename T>
-void doubleLinkedList<T>::toList(arrayList<T>& theList)
+void doublyLinkedList<T>::toList(arrayList<T>& theList)
 {
 	theList.setSize(this->size());
 	for (int i = 0; i < this->size(); i++)
-		theList.insert(i, this->get(i));
+theList.insert(i, this->get(i));
 }
 template<typename T>
-void doubleLinkedList<T>::leftShift(const int& i)
+void doublyLinkedList<T>::leftShift(const int& i)
 {
 	for (int j = 0; j < i; j++)
 		this->erase(0);
 }
 template<typename T>
-void doubleLinkedList<T>::reverse()
+void doublyLinkedList<T>::reverse()
 {
 	auto size = listSize;
 	for (int i = 0; i < size / 2; i++)
 	{
 		auto tmp = this->get(i);
 		this->set(i, this->get(size - 1 - i));
-		this->set(size - 1 - i,tmp);
+		this->set(size - 1 - i, tmp);
 	}
 }
 template<typename T>
-void doubleLinkedList<T>::merge(doubleLinkedList<T>& chainA, doubleLinkedList<T>& chainB)
+void doublyLinkedList<T>::merge(doublyLinkedList<T>& chainA, doublyLinkedList<T>& chainB)
 {
 	auto size = listSize;
 	for (int i = 0; i < size; i++)
@@ -420,7 +422,7 @@ void doubleLinkedList<T>::merge(doubleLinkedList<T>& chainA, doubleLinkedList<T>
 		chainB.erase(0);
 }
 template<typename T>
-void doubleLinkedList<T>::meld(doubleLinkedList<T>& chainA, doubleLinkedList<T>& chainB)
+void doublyLinkedList<T>::meld(doublyLinkedList<T>& chainA, doublyLinkedList<T>& chainB)
 {
 	auto oldSize = listSize;
 	for (int i = 0; i < listSize; i++)
@@ -428,7 +430,7 @@ void doubleLinkedList<T>::meld(doubleLinkedList<T>& chainA, doubleLinkedList<T>&
 	auto size = chainA.size() + chainB.size();
 	auto meldSize = min(chainA.size(), chainB.size());
 	auto leftPart = max(chainA.size(), chainB.size()) - meldSize;
-	firstNode = new extendedChainNode<T>(chainA.get(0), NULL,NULL);
+	firstNode = new extendedChainNode<T>(chainA.get(0), NULL, NULL);
 	lastNode = firstNode;
 	firstNode->next = new extendedChainNode<T>(chainB.get(0), NULL);
 	lastNode = firstNode->next;
@@ -436,19 +438,19 @@ void doubleLinkedList<T>::meld(doubleLinkedList<T>& chainA, doubleLinkedList<T>&
 	extendedChainNode<T>* theNode = firstNode->next;
 	for (int i = 1; i < meldSize; i++)
 	{
-		theNode->next = new extendedChainNode<T>(chainA.get(i), NULL,theNode);
+		theNode->next = new extendedChainNode<T>(chainA.get(i), NULL, theNode);
 		theNode = theNode->next;
 		theNode->next = new extendedChainNode<T>(chainB.get(i), NULL, theNode);
 		theNode = theNode->next;
 		listSize += 2;
 	}
-	if(chainA.size()>chainB.size())
+	if (chainA.size() > chainB.size())
 		for (int i = meldSize; i < chainA.size(); i++)
 		{
 			theNode->next = new extendedChainNode<T>(chainA.get(i), NULL, theNode);
 			theNode = theNode->next;
 		}
-	if(chainA.size()<chainB.size())
+	if (chainA.size() < chainB.size())
 		for (int i = meldSize; i < chainB.size(); i++)
 		{
 			theNode->next = new extendedChainNode<T>(chainB.get(i), NULL, theNode);
@@ -462,7 +464,7 @@ void doubleLinkedList<T>::meld(doubleLinkedList<T>& chainA, doubleLinkedList<T>&
 		chainB.erase(0);
 }
 template<typename T>
-void doubleLinkedList<T>::split(doubleLinkedList<T>& chainA, doubleLinkedList<T>& chainB)
+void doublyLinkedList<T>::split(doublyLinkedList<T>& chainA, doublyLinkedList<T>& chainB)
 {
 	auto sizeA = chainA.size();
 	auto sizeB = chainB.size();
@@ -480,12 +482,65 @@ void doubleLinkedList<T>::split(doubleLinkedList<T>& chainA, doubleLinkedList<T>
 		chainA.push_back(this->get(sizeC - 1));
 }
 template<typename T>
-void doubleLinkedList<T>::insertSort()
+void doublyLinkedList<T>::insertSort()
 {
+	/*
+	
+	
+	for£¨inti = 0; i < listSize; i++)
+	{
+		T t = this->get(i);
+		int j;
+		for (j = i - 1; j >= 0 && t < this->get(j); j -- )
+		{
+			this->get(j + 1) = this->get(j);
+		}
+		this->get(j + 1) = t;
+	}
 
+	//bubble
+	for (int i = 0; i < listSize; i++)
+		for(int j=0;j<listSize-1-i;j++)
+			if (this->get(j) > this->get(j + 1))
+			{
+				T t = this->get(j);
+				this->get(j) = this->get(j + 1);
+				this->get(j + 1) = t;
+			}
+	//selectionSort
+	for (int i = 0; i < listSize; i++)
+	{
+		T max = this->get(i);
+		for (int j = 0; j < listSize - i; j++)
+			if (this->get(j) > max)
+				max = this->get(j);
+		for(int j=0;j<listSize-i;j++)
+			if (this->get(j) == max)
+			{
+				T t = this->get(listSize - 1 - i);
+				this->get(listSize - 1 - i) = this->get(j);
+				this->get(j) = t;
+			}
+	}
+	*/
+	//rankingSort
+	int* num = new int[listSize];
+	for (int i = 0; i < listSize; i++)
+	{
+		num[i] = 0;
+		for (int j = 0; j < listSize; j++)
+			if (this->get(j) < this->get(i))
+				num[i]++;
+			else if (this->get(j) == this->get(i) && j < i)
+				num[i]++;
+	}
+	doublyLinkedList<T> tList(*this);
+	for (int i = 0; i < listSize; i++)
+		this->set(num[i], tList.get(i));
+	delete num;
 }
 template<typename T>
-void doubleLinkedList<T>::checkIndex(int theIndex)const
+void doublyLinkedList<T>::checkIndex(int theIndex)const
 {
 	if (theIndex < 0 || theIndex >= listSize)
 	{
@@ -494,4 +549,22 @@ void doubleLinkedList<T>::checkIndex(int theIndex)const
 		s << "index: " << theIndex << " size: " << listSize;
 		throw illegalIndex(s.str());
 	}
+}
+template<typename T>
+void doublyLinkedList<T>::clear()
+{
+	while (firstNode != NULL)
+	{
+		extendedChainNode<T>* nextNode = firstNode->next;
+		delete firstNode;
+		firstNode = nextNode;
+	}
+	lastNode = NULL;
+	listSize = 0;
+}
+template<typename T>
+void doublyLinkedList<T>::zero()
+{
+	firstNode = lastNode = NULL;
+	listSize = 0;
 }

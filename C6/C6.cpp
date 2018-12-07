@@ -10,6 +10,7 @@
 //#include"moveLeftAndRightOnChain.h"
 #include"circularList.h"
 //#include"circularListWithHeader.h"
+#include"doublyLinkedList.h"
 using namespace std;
 int main()
 {
@@ -284,6 +285,75 @@ cout << "listA:" << listA << endl;
 
 
 //E43
+	doublyLinkedList<int> listA(10),listB(5),listC(10),listD(10);
+	arrayList<int> listM(10),listN(10);
+	cout << "empty? " << listA.empty() << endl;
+	cout << "size: " << listA.size() << endl;
+	cout << "input 0-9" << endl;
+	for (int i = 0; i < 10; i++)
+		listA.push_back(i);
+	cout << "operator <<: " << listA << endl;
+	cout << "output: " << endl;
+	listA.output(cout);
+	cout << endl;
+	cout << "empty? " << listA.empty() << endl;
+	cout << "size: " << listA.size() << endl;
+	cout << "get 3: " << listA.get(3) << endl;
+	cout << "index of 3: " << listA.indexOf(3) << endl;
+	cout << "operator[2]:" << listA[2] << endl;
+	for (int i = 0; i < 5; i++)
+		listB.push_back(i);
+	cout << "listB:" << listB << endl;
+	cout << "operator ==: " << (listA == listB) << endl;
+	cout << "operator !=: " << (listA != listB) << endl;
+	cout << "operator >:" << (listA > listB) << endl;
+	cout << "operator <: " << (listA < listB) << endl;
+	cout << "operator<=: " << (listA <= listB) << endl;
+	cout << "operator>=: " << (listA >= listB) << endl;
+	cout << "listC: " << listC << endl;
+	cout << "listD: " << listD << endl;
+	listA.split(listC, listD);
+	cout << "split listC: " << listC << endl;
+	cout << "split listD: " << listD << endl;
+	cout << "listA: " << listA << endl;
+	listA.merge(listC, listD);
+	cout << "merge:" << listA << endl;
+	listA.meld(listC, listD);
+	cout << "meld: " << listA << endl;
+	listA.reverse();
+	cout << "reverse: " << listA << endl;
+	cout << "listM: " << listM << endl;
+	listA.toList(listM);
+	cout << "toList: " << listM << endl;
+	for (int i = 0; i < 10; i++)
+		listN.push_back(i);
+	cout << "listN: " << listN << endl;
+	listA.fromList(listN);
+	cout << "fromList: " << listA << endl;
+
+	listA.leftShift(2);
+	cout << "leftShift 2: " << listA << endl;
+	listA.clear();
+	cout << "clear: " << listA << endl;
+	listB.zero();
+	cout << "zero: " << listB << endl;
+
+	for (int i = 0; i < 10; i++)
+		listA.push_back(i);
+	cout << "erase 2: " << listA << endl;
+	cout << "insert(3,12): " << listA << endl;
+	cout << "set(0,12): " << listA << endl;
+	cout << "pushback 34:" << listA << endl;
+	listA.insertSort();
+	cout << "insertSort: " << listA << endl;
+	cout << "setSize 4: " << listA << endl;
+	cout << "removeRange(0,3): " << listA << endl;
+	cout << "lastIndexOf(3): " << listA << endl;
+
+	listA.clear();
+	for (int i = 0; i < 10; i++)
+		listA.push_back(i);
+	doublyLinkedList<int>::iterator it = listA.begin();
 
 //E44
 //E45
