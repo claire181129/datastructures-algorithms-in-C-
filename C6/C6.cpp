@@ -289,7 +289,7 @@ cout << "listA:" << listA << endl;
 	arrayList<int> listM(10),listN(10);
 	cout << "empty? " << listA.empty() << endl;
 	cout << "size: " << listA.size() << endl;
-	cout << "input 0-9" << endl;
+	cout << "push back 0-9" << endl;
 	for (int i = 0; i < 10; i++)
 		listA.push_back(i);
 	cout << "operator <<: " << listA << endl;
@@ -305,26 +305,38 @@ cout << "listA:" << listA << endl;
 		listB.push_back(i);
 	cout << "listB:" << listB << endl;
 	cout << "operator ==: " << (listA == listB) << endl;
-	cout << "operator !=: " << (listA != listB) << endl;
+	//cout << "operator !=: " << (listA != listB) << endl;
 	cout << "operator >:" << (listA > listB) << endl;
 	cout << "operator <: " << (listA < listB) << endl;
 	cout << "operator<=: " << (listA <= listB) << endl;
 	cout << "operator>=: " << (listA >= listB) << endl;
+
 	cout << "listC: " << listC << endl;
 	cout << "listD: " << listD << endl;
 	listA.split(listC, listD);
 	cout << "split listC: " << listC << endl;
 	cout << "split listD: " << listD << endl;
+
+
+
 	cout << "listA: " << listA << endl;
 	listA.merge(listC, listD);
 	cout << "merge:" << listA << endl;
+
+	for (int i = 0; i < 5; i++)
+		listC.push_back(2*i+1);
+	for (int i = 0; i < 5; i++)
+		listD.push_back(2 * i);
 	listA.meld(listC, listD);
 	cout << "meld: " << listA << endl;
+
 	listA.reverse();
 	cout << "reverse: " << listA << endl;
+
 	cout << "listM: " << listM << endl;
 	listA.toList(listM);
 	cout << "toList: " << listM << endl;
+
 	for (int i = 0; i < 10; i++)
 		listN.push_back(i);
 	cout << "listN: " << listN << endl;
@@ -333,27 +345,49 @@ cout << "listA:" << listA << endl;
 
 	listA.leftShift(2);
 	cout << "leftShift 2: " << listA << endl;
+
 	listA.clear();
 	cout << "clear: " << listA << endl;
+
 	listB.zero();
 	cout << "zero: " << listB << endl;
 
 	for (int i = 0; i < 10; i++)
 		listA.push_back(i);
+	cout << "listA:" << listA << endl;
+	listA.erase(2);
 	cout << "erase 2: " << listA << endl;
+
+	listA.insert(3, 12);
 	cout << "insert(3,12): " << listA << endl;
+
+	listA.set(0, 12);
 	cout << "set(0,12): " << listA << endl;
+
+	listA.push_back(34);
 	cout << "pushback 34:" << listA << endl;
+
 	listA.insertSort();
 	cout << "insertSort: " << listA << endl;
+
+	listA.setSize(4);
 	cout << "setSize 4: " << listA << endl;
+
+	listA.removeRange(0, 3);
 	cout << "removeRange(0,3): " << listA << endl;
-	cout << "lastIndexOf(3): " << listA << endl;
+
+	cout << "lastIndexOf(3): " << listA.lastIndexOf(3) << endl;
 
 	listA.clear();
 	for (int i = 0; i < 10; i++)
 		listA.push_back(i);
 	doublyLinkedList<int>::iterator it = listA.begin();
+	cout << "it:" << *it << endl;
+	it++;
+	cout << "it++:" << *it << endl;
+	cout << "++it:" << *(++it) << endl;
+	cout << "begin==end:" << (listA.begin() == listA.end()) << endl;
+	cout << "begin!=end:" << (listA.begin() != listA.end()) << endl;	
 
 //E44
 //E45

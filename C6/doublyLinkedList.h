@@ -24,7 +24,7 @@ public:
 	iterator end() { return iterator(firstNode->previous); }
 	class iterator {
 	public:
-		iterator(chainNode<T>* theNode = NULL) { node = theNode; }
+		iterator(extendedChainNode<T>* theNode = NULL) { node = theNode; }
 
 		T& operator*()const { return node->element; }
 		T* operator->()const { return &node->element; }
@@ -114,7 +114,7 @@ doublyLinkedList<T>::doublyLinkedList(const doublyLinkedList<T>& theList)
 		sourceNode = sourceNode->next;
 	}
 	targetNode->next = NULL;
-	lastNode = taegetNode;
+	lastNode = targetNode;
 }
 template<typename T>
 T& doublyLinkedList<T>::get(int theIndex)const
@@ -158,8 +158,11 @@ void doublyLinkedList<T>::erase(int theIndex)
 	if (theIndex == 0)
 	{
 		deleteNode = firstNode;
-		firstNode = firstNode->next;
-		firstNode->previous = NULL;
+		if (firstNode->next)
+		{
+			firstNode = firstNode->next;
+			firstNode->previous = NULL;
+		}
 	}
 	else if (theIndex == listSize - 1)
 	{
@@ -178,6 +181,8 @@ void doublyLinkedList<T>::erase(int theIndex)
 	}
 	listSize--;
 	delete deleteNode;
+	if (listSize == 0)
+		firstNode = lastNode = NULL;
 }
 template<typename T>
 void doublyLinkedList<T>::insert(int theIndex, const T& theElement)
@@ -219,13 +224,21 @@ void doublyLinkedList<T>::insert(int theIndex, const T& theElement)
 template<typename T>
 void doublyLinkedList<T>::output(ostream& out)const
 {
-
+	for (extendedChainNode<T>* currentNode = firstNode; currentNode != NULL; currentNode = currentNode->next)
+		out << currentNode->element << " ";
 }
 template<typename T>
 void doublyLinkedList<T>::push_back(const T& theElement)
 {
-	for (extendedChainNode<T>* currentNode = firstNode; currentNode != NULL; currentNode = currentNode->next)
-		out << currentNode->element << " ";
+	if (this->size() == 0)
+	{
+		lastNode = firstNode = new extendedChainNode<T>(theElement, firstNode,firstNode);
+		listSize++;
+		return;
+	}
+	extendedChainNode<T>* theNode = lastNode;
+	lastNode = theNode->next = new extendedChainNode<T>(theElement, NULL,lastNode);
+	listSize++;
 }
 template<typename T>
 //exercise or other
@@ -264,9 +277,8 @@ void doublyLinkedList<T>::removeRange(int fromIndex, int toIndex)
 {
 	checkIndex(fromIndex);
 	checkIndex(toIndex);
-	auto theIndex = fromIndex;
 	for (int i = fromIndex; i <= toIndex; i++)
-		erase(theIndex);
+		erase(fromIndex);
 }
 template<typename T>
 int doublyLinkedList<T>::lastIndexOf(const T& theElement)
@@ -279,7 +291,7 @@ int doublyLinkedList<T>::lastIndexOf(const T& theElement)
 			theIndex = i;
 		theNode = theNode->next;
 	}
-	return theInde;
+	return theIndex;
 }
 template<typename T>
 ostream& operator<<(ostream& out, const doublyLinkedList<T>& x)
@@ -314,7 +326,7 @@ template<typename T>
 bool doublyLinkedList<T>::operator<(const doublyLinkedList<T>& b)const
 {
 	for (int i = 0; i < min(listSize, b.size()); i++)
-		if (this->get(i) < b.get())
+		if (this->get(i) < b.get(i))
 			return true;
 		else if (this->get(i) > b.get(i))
 			return false;
@@ -330,7 +342,7 @@ bool doublyLinkedList<T>::operator>(const doublyLinkedList<T>& b)const
 		if (this->get(i) > b.get(i))
 			return true;
 		else if (this->get(i) < b.get(i))
-			return fales;
+			return false;
 	if (listSize > b.size())
 		return true;
 	else
@@ -355,7 +367,7 @@ bool doublyLinkedList<T>::operator>=(const doublyLinkedList<T>& b)const
 	for (int i = 0; i < min(listSize, b.size()); i++)
 		if (this->get(i) > b.get(i))
 			return true;
-		else if (this->get(i) > b.get(i))
+		else if (this->get(i) < b.get(i))
 			return false;
 	if (listSize > b.size())
 		return true;
@@ -376,16 +388,16 @@ void doublyLinkedList<T>::swap(doublyLinkedList<T>& theChain)
 template<typename T>
 void doublyLinkedList<T>::fromList(const arrayList<T>& theList)
 {
-	this->setSize(theList.size())
-		for (int i = 0; i < theList.size(); i++)
-			this->insert(i, theList.get(i));
+	this->clear();
+	for (int i = 0; i < theList.size(); i++)
+		this->push_back(theList.get(i));
 }
 template<typename T>
 void doublyLinkedList<T>::toList(arrayList<T>& theList)
 {
-	theList.setSize(this->size());
+	theList.clear();
 	for (int i = 0; i < this->size(); i++)
-theList.insert(i, this->get(i));
+		theList.push_back(this->get(i));
 }
 template<typename T>
 void doublyLinkedList<T>::leftShift(const int& i)
@@ -425,14 +437,14 @@ template<typename T>
 void doublyLinkedList<T>::meld(doublyLinkedList<T>& chainA, doublyLinkedList<T>& chainB)
 {
 	auto oldSize = listSize;
-	for (int i = 0; i < listSize; i++)
+	for (int i = 0; i < oldSize; i++)
 		this->erase(0);
 	auto size = chainA.size() + chainB.size();
 	auto meldSize = min(chainA.size(), chainB.size());
 	auto leftPart = max(chainA.size(), chainB.size()) - meldSize;
 	firstNode = new extendedChainNode<T>(chainA.get(0), NULL, NULL);
 	lastNode = firstNode;
-	firstNode->next = new extendedChainNode<T>(chainB.get(0), NULL);
+	firstNode->next = new extendedChainNode<T>(chainB.get(0), firstNode,NULL);
 	lastNode = firstNode->next;
 	listSize += 2;
 	extendedChainNode<T>* theNode = firstNode->next;
@@ -449,13 +461,16 @@ void doublyLinkedList<T>::meld(doublyLinkedList<T>& chainA, doublyLinkedList<T>&
 		{
 			theNode->next = new extendedChainNode<T>(chainA.get(i), NULL, theNode);
 			theNode = theNode->next;
+			listSize++;
 		}
 	if (chainA.size() < chainB.size())
 		for (int i = meldSize; i < chainB.size(); i++)
 		{
 			theNode->next = new extendedChainNode<T>(chainB.get(i), NULL, theNode);
 			theNode = theNode->next;
+			listSize++;
 		}
+	lastNode = theNode;
 	auto sizeA = chainA.size();
 	for (int i = 0; i < sizeA; i++)
 		chainA.erase(0);
