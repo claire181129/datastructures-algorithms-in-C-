@@ -404,7 +404,7 @@ bool chain<T>::operator>=(const chain<T>& b)const
 	{
 		if (this->get(i) > b.get(i))
 			return true;
-		else if (this->get(i) > b.get(i))
+		else if (this->get(i) < b.get(i))
 			return false;
 	}
 	if (listSize > b.size())
@@ -486,6 +486,7 @@ void chain<T>::meld(chain<T>& chainA, chain<T>& chainB)
 		{
 			theNode->next = new chainNode<T>(chainA.get(i), NULL);
 			theNode = theNode->next;
+			listSize++;
 		}
 	if (chainA.size()<chainB.size())
 	{
@@ -493,6 +494,7 @@ void chain<T>::meld(chain<T>& chainA, chain<T>& chainB)
 		{
 			theNode->next = new chainNode<T>(chainB.get(i),NULL);
 			theNode = theNode->next;
+			listSize++;
 		}
 	}
 	auto sizeA = chainA.size();

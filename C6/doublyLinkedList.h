@@ -72,6 +72,7 @@ public:
 	void merge(doublyLinkedList<T>& chainA, doublyLinkedList<T>& chainB);
 	void meld(doublyLinkedList<T>& chainA, doublyLinkedList<T>& chainB);
 	void split(doublyLinkedList<T>& chainA, doublyLinkedList<T>& chainB);
+	void unite(doublyLinkedList<T>& listA, doublyLinkedList<T>& listB);
 	void insertSort();
 	void clear();
 	void zero();
@@ -553,6 +554,11 @@ void doublyLinkedList<T>::insertSort()
 	for (int i = 0; i < listSize; i++)
 		this->set(num[i], tList.get(i));
 	delete num;
+}
+template<typename T>
+void doublyLinkedList<T>::unite(doublyLinkedList<T>& listA, doublyLinkedList<T>& listB)
+{
+
 }
 template<typename T>
 void doublyLinkedList<T>::checkIndex(int theIndex)const

@@ -10,7 +10,8 @@
 //#include"moveLeftAndRightOnChain.h"
 #include"circularList.h"
 //#include"circularListWithHeader.h"
-#include"doublyLinkedList.h"
+//#include"doublyLinkedList.h"
+#include"doubleCircularList.h"
 using namespace std;
 int main()
 {
@@ -264,8 +265,6 @@ int main()
 	cout << "listC:" << listC << endl;
 	*/
 	
-	
-
 	//e37
 /*
 circularList<int> listA(10);
@@ -278,13 +277,8 @@ cout << "listA:" << listA << endl;
 	
 
 	//e38
+//E43-48 test class doubltLinkedList
 /*
-
-*/
-
-
-
-//E43
 	doublyLinkedList<int> listA(10),listB(5),listC(10),listD(10);
 	arrayList<int> listM(10),listN(10);
 	cout << "empty? " << listA.empty() << endl;
@@ -388,25 +382,115 @@ cout << "listA:" << listA << endl;
 	cout << "++it:" << *(++it) << endl;
 	cout << "begin==end:" << (listA.begin() == listA.end()) << endl;
 	cout << "begin!=end:" << (listA.begin() != listA.end()) << endl;	
+*/
+	
+//E49-54 test class doubleCircularList
+	doubleCircularList<int> listA(10), listB(10), listC(10), listD(10);
+	arrayList<int> listM(10), listN(10);
 
-//E44
-//E45
-//E46
-//E47
-//E48
-//E49
-//E50
-//E51
-//E52
+	cout << "empty: " << listA.empty() << endl;
+	cout << "size: " << listA.size() << endl;
+	cout << "output: ";
+	listA.output(cout);
+	cout << endl;
+	cout << "operator<<: " << listA << endl;
 
-//E53
-//E54
-//E55
-//E56
-//E57
-//E58
-//E59
-//E60
+	for (int i = 0; i < 10; i++)
+		listA.push_back(i);
+	for (int i = 10; i < 20; i++)
+		listB.push_back(i);
+	for (int i = 20; i < 30; i++)
+		listC.push_back(i);
+	for (int i = 0; i < 10; i++)
+		listM.push_back(i);
+	for (int i = 10; i < 20; i++)
+		listN.push_back(i);
+	cout << "empty: " << listA.empty() << endl;
+	cout << "size: " << listA.size() << endl;
+	cout << "operator<<: " << listA << endl;
+	cout << "output: ";
+	listA.output(cout);
+	cout << endl;
+	cout << "get[2]: " << listA.get(2) << endl;
+	cout << "operator[3]: " << listA[3] << endl;
+	cout << "index of 3: " << listA.indexOf(3) << endl;
+	listA.set(6, 22);
+	cout << "set(6,22): " << listA << endl;
+	cout << "lastIndexOf2: " << listA.lastIndexOf(2) << endl;
+	cout << "listB: " << listB << endl;
+	cout << "listC: " << listC << endl;
+	cout << "listA==listB:" << (listA == listB) << endl;
+	cout << "listA!=listB: " << (listA != listB) << endl;
+	cout << "listB==listC: " << (listB == listC) << endl;
+	cout << "listA>listB: " << (listA > listB) << endl;
+	cout << "listA<listB: " << (listA < listB) << endl;
+	cout << "listA<=listB: " << (listA <= listB) << endl;
+	cout << "listA>=listB: " << (listA >= listB) << endl;
+	listA.reverse();
+	cout << "reverse: " << listA << endl;
+	listA.circularShift(3);
+	cout << "circularShift 3: " << listA << endl;
+	listA.leftShift(2);
+	cout << "leftShift 2: " << listA << endl;
+	listA.insertSort();
+	cout << "insertSort: " << listA << endl;
+	listA.removeRange(4, 7);
+	cout << "removerange(4,7): " << listA << endl;
+
+	listA.insert(3, 11);
+	cout << "insert(3,11): " << listA << endl;
+	listA.erase(2);
+	cout << "erase 2: " << listA << endl;
+	listA.setSize(4);
+	cout << "setSize4: " << listA << endl;
+
+	cout << "listM: " << listM << endl;
+	listA.toList(listM);
+	cout << "toListM: " << listM << endl;
+
+	cout << "listN: " << listN << endl;
+	listA.fromList(listN);
+	cout << "fromlistN: " << listA << endl;
+
+	cout << "listA: " << listA << endl;
+	cout << "listB: " << listB << endl;
+	listA.swap(listB);
+	cout << "swap listA: " << listA << endl;
+	cout << "listB: " << listB << endl;
+
+	cout << "listC: " << listC << endl;
+	cout << "listD: " << listD << endl;
+	cout << "listA: " << listA << endl;
+	listA.merge(listC, listD);
+	cout << "merge listA: " << listA << endl;
+	cout << "listC: " << listC << endl;
+	cout << "listD: " << listD << endl;
+
+	cout << "listB: " << listB << endl;
+	listC.meld(listA, listB);
+	cout << "merge listC: " << listC << endl;
+	cout << "listA: " << listA << endl;
+	cout << "listB: " << listB << endl;
+
+	listC.split(listA, listB);
+	cout << "split listA: " << listA << endl;
+	cout << "listB: " << listB << endl;
+	cout << "listC: " << listC << endl;
+
+	listA.zero();
+	cout << "zero: " << listA << endl;
+
+	for (int i = 0; i < 10; i++)
+		listA.push_back(i);
+	doubleCircularList<int>::iterator it = listA.begin();
+	cout << "*it: " << *it << endl;
+	cout << "++it: " << *(++it) << endl;
+	it++;
+	cout << "it++: " << *it << endl;
+	cout << "begin==end: " << (listA.begin() == listA.end()) << endl;
+	cout << "begin!=end: " << (listA.begin() != listA.end()) << endl;
+//E55-60 test class doubleCircularListWithHeader
+
 //E61
 //E62
 //E63
@@ -431,10 +515,6 @@ cout << "listA:" << listA << endl;
 //E
 //E
 //E
-
-
-
-
 
 
 
