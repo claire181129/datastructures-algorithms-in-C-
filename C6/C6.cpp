@@ -430,6 +430,7 @@ cout << "listA:" << listA << endl;
 	cout << "reverse: " << listA << endl;
 	listA.circularShift(3);
 	cout << "circularShift 3: " << listA << endl;
+
 	listA.leftShift(2);
 	cout << "leftShift 2: " << listA << endl;
 	listA.insertSort();
@@ -478,7 +479,7 @@ cout << "listA:" << listA << endl;
 	cout << "listC: " << listC << endl;
 
 	listA.zero();
-	cout << "zero: " << listA << endl;
+	cout << "zero listA: " << listA << endl;
 
 	for (int i = 0; i < 10; i++)
 		listA.push_back(i);

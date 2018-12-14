@@ -81,7 +81,8 @@ public:
 	void push_back(const T& theElement);
 	void clear()
 	{
-		for (int i = 0; i < listSize; i++)
+		auto size = listSize;
+		for (int i = 0; i < size; i++)
 		{
 			this->erase(0);
 		}
@@ -182,10 +183,13 @@ void doubleCircularList<T>::erase(int theIndex) {
 	if (theIndex == 0)
 	{
 		deleteNode = firstNode;
-		if (firstNode->next)
+		if (listSize == 1)
+			firstNode = lastNode = NULL;
+		else
 		{
 			firstNode = firstNode->next;
 			firstNode->previous = NULL;
+			lastNode->next = firstNode;
 		}
 	}
 	else if (theIndex == listSize - 1)
@@ -197,11 +201,12 @@ void doubleCircularList<T>::erase(int theIndex) {
 	else
 	{
 		extendedChainNode<T>* p = firstNode;
-		for (int i = 0; i < theIndex - 1; i++)
+		for (int i = 0; i < theIndex-1; i++)
 			p = p->next;
 		deleteNode = p->next;
 		p->next = p->next->next;
-	}
+		p->next->previous = p;
+	} 
 	listSize--;
 	delete deleteNode;
 }
@@ -218,6 +223,7 @@ void doubleCircularList<T>::insert(int theIndex, const T& theElement)
 	{
 		firstNode = new extendedChainNode<T>(theElement, firstNode, NULL);
 		firstNode->next->previous = firstNode;
+		lastNode->next = firstNode;
 	}
 	else
 	{
@@ -227,12 +233,9 @@ void doubleCircularList<T>::insert(int theIndex, const T& theElement)
 		p->next = new extendedChainNode<T>(theElement, p->next, p);
 		p->next->next->previous = p->next;
 	}
-	if (theIndex == listSize - 1)
+	if (theIndex == listSize)
 	{
-		extendedChainNode<T>* p = firstNode;
-		for (int i = 0; i < listSize-1; i++)
-			p = p->next;
-		lastNode = p;
+		lastNode = lastNode->next;
 	}
 	listSize++;
 }
@@ -278,9 +281,8 @@ void doubleCircularList<T>::removeRange(int fromIndex, int toIndex)
 {
 	checkIndex(fromIndex);
 	checkIndex(toIndex);
-	auto theIndex = fromIndex;
 	for (int i = fromIndex; i <= toIndex; i++)
-		erase(theIndex);
+		erase(fromIndex);
 }
 template<typename T>
 int doubleCircularList<T>::lastIndexOf(const T& theElement)const
@@ -289,7 +291,7 @@ int doubleCircularList<T>::lastIndexOf(const T& theElement)const
 	int theIndex = 0;
 	for (int i = 0; i < listSize; i++)
 	{
-		if (theNode->element = theElement)
+		if (theNode->element == theElement)
 			theIndex = i;
 		theNode = theNode->next;
 	}
@@ -377,6 +379,10 @@ void doubleCircularList<T>::swap(doubleCircularList<T>& theList)
 	theList.firstNode = firstNode;
 	firstNode = tmpNode;
 
+	tmpNode = theList.lastNode;
+	theList.lastNode = lastNode;
+	lastNode = tmpNode;
+
 	int tmpSize = theList.size();
 	theList.listSize = listSize;
 	listSize = tmpSize;
@@ -437,7 +443,7 @@ void doubleCircularList<T>::meld(doubleCircularList<T>& listA, doubleCircularLis
 	firstNode->next = new extendedChainNode<T>(listB.get(0), NULL, firstNode);
 	listSize += 2;
 	extendedChainNode<T>* theNode = firstNode->next;
-	for (int i = 0; i < meldSize; i++)
+	for (int i = 1; i < meldSize; i++)
 	{
 		theNode->next = new extendedChainNode<T>(listA.get(i), NULL, theNode);
 		theNode = theNode->next;
@@ -481,7 +487,7 @@ void doubleCircularList<T>::split(doubleCircularList<T>& listA, doubleCircularLi
 template<typename T>
 void doubleCircularList<T>::insertSort()
 {
-	/*
+	
 	for (int i = 0; i < listSize; i++)
 	{
 		T t = this->get(i);
@@ -492,7 +498,7 @@ void doubleCircularList<T>::insertSort()
 		}
 		this->get(j + 1) = t;
 	}
-	*/
+	
 	
 	//bubble
 	/*
@@ -533,7 +539,8 @@ void doubleCircularList<T>::insertSort()
 	*/
 
 	//rankingSort 
-	///*
+	/*
+	
 	int* num = new int[listSize];
 	for (int i = 0; i < listSize; i++)
 	{
@@ -550,6 +557,7 @@ void doubleCircularList<T>::insertSort()
 	for (int i = 0; i < listSize; i++)
 		this->set(num[i], tList.get(i));
 	delete num;
+	*/
 }
 template<typename T>
 void doubleCircularList<T>::circularShift(const int& i)
