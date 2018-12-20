@@ -604,9 +604,130 @@ cout << "listA:" << listA << endl;
 	cout << "begin!=end: " << (listA.begin() != listA.end()) << endl;
 	*/
 	//test class listList
-	listList<int> listA(10);
-	//test bidirectional iterator
+	listList<int> listA(10),listB(10);
+	for (int i = 0; i < 10; i++)
+		listA.push_back(i);
+	for (int i = 0; i < 10; i++)
+		listB.push_back(i*2);
+	cout << "listA.output(): ";
+	listA.output(cout);
+	cout << endl;
+	cout << "size: " << listA.size() << endl;
+	cout << "empty: " << listA.empty() << endl;
+	cout << "indexOf(2): " << listA.indexOf(2) << endl;
+	cout << "get(2): " << listA.get(2) << endl;
+	listA.erase(2);
+	cout << "erase(2): " << listA << endl;
+	listA.insert(2, 2);
+	cout << "insert(2,2): " << listA << endl;
 
+	cout << "listA: " << listA << endl;
+	cout << "listB: " << listB << endl;
+	cout << "listA==listB: " << (listA == listB) << endl;
+	cout << "listA!=lsitB: " << (listA != listB) << endl;
+	cout << "listA>listB: " << (listA > listB) << endl;
+	cout << "listA<listB: " << (listA < listB) << endl;
+	cout << "listA>=listB: " << (listA >= listB) << endl;
+	cout << "lsitA<=listB: " << (listA <= listB) << endl;
+	listA.swap(listB);
+	cout << "swap listA: " << listA << endl;
+	cout << "swap listB: " << listB << endl;
+	listA.set(0, 4);
+	cout << "set(0,4): " << listA << endl;
+	cout << "lastIndexOf(4): " << listA.lastIndexOf(4) << endl;
+	listA.insertSort();
+	cout << "insertSort: " << listA << endl;
+	listA.circularShift(2);
+	cout << "circularShift(2): " << listA << endl;
+	listA.leftShift(2);
+	cout << "leftShift(2): " << listA << endl;
+
+	listA.setSize(7);
+	cout << "setSize(7): " << listA << endl;
+	listA.removeRange(0, 3);
+	cout << "removeRange(0,3): " << listA << endl;
+	cout << "[0]: " << listA[0] << endl;
+
+	for (int i = 0; i < 10; i++)
+		listA.push_back(i);
+	arrayList<int> listM(10);
+
+	cout << "listM: " << listM << endl;
+	cout << "listA: " << listA << endl;
+	listA.toList(listM);
+	cout << "tolist listM: " << listM << endl;
+	cout << "tolist listA: " << listA << endl;
+
+	for (int i = 10; i < 20; i++)
+		listM.push_back(i);
+
+	cout << "listM: " << listM << endl;
+	cout << "listA: " << listA << endl;
+	listA.fromList(listM);
+	cout << "fromList listM: " << listM << endl;
+	cout << "fromList listA: " << listA << endl;
+
+	listA.clear();
+	for (int i = 0; i < 10; i++)
+		listA.push_back(i);
+	listList<int> listC(10);
+	cout << "listA: " << listA << endl;
+	cout << "listB: " << listB << endl;
+	cout << "listC: " << listC << endl;
+	listA.split(listB, listC);
+	cout << "split listA: " << listA << endl;
+	cout << "split listB: " << listB << endl;
+	cout << "split listC: " << listC << endl;
+
+	listB.clear();
+	listC.clear();
+	for (int i = 1; i < 5; i++)
+	{
+		listB.push_back(i * 2);
+		listC.push_back(i * 2 + 1);
+	}
+	cout << "listA: " << listA << endl;
+	cout << "listB: " << listB << endl;
+	cout << "listC: " << listC << endl;
+	listA.merge(listB, listC);
+	cout << "merge listA: " << listA << endl;
+	cout << "merge listB: " << listB << endl;
+	cout << "merge listC: " << listC << endl;
+
+	listB.clear();
+	listC.clear();
+	for (int i = 1; i < 5; i++)
+	{
+		listB.push_back(i * 2);
+		listC.push_back(i * 2 + 1);
+	}
+	cout << "listA: " << listA << endl;
+	cout << "listB: " << listB << endl;
+	cout << "listC: " << listC << endl;
+	listA.meld(listB, listC);
+	cout << "meld listA: " << listA << endl;
+	cout << "meld listB: " << listB << endl;
+	cout << "meld listC: " << listC << endl;
+
+	//test bidirectional iterator
+	doubleCircularListWithHeader<int> listX(10);
+	for (int i = 0; i < 10; i++)
+		listX.push_back(i);
+	doubleCircularListWithHeader<int>::iterator it(listX.begin());
+	cout << "*it: " << *it << endl;
+	it++;
+	it++;
+	it++;
+	cout << "*it: " << *it << endl;
+	cout << "--it: " << *(--it) << endl;
+	it--;
+	cout << "it--: " << *it << endl;
+	//bug?
+	/*
+	it = listX.end();
+	it--;
+	cout<<"it--: "<<*it<<endl;//cause list.end() = NULL, it-- will output break;
+	*/
 //E61
 //E62
 //E63

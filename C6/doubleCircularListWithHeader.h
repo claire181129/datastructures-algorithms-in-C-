@@ -25,8 +25,14 @@ public:
 	iterator end() { return iterator(NULL); }
 	class iterator {
 	public:
-		iterator(extendedChainNode<T>* theNode = NULL) { node = theNode; }
+		typedef bidirectional_iterator_tag iterator_category;
+		typedef T value_type;
+		typedef ptrdiff_t difference_type;
+		typedef T* pointer;
+		typedef T& reference;
 
+		iterator(extendedChainNode<T>* theNode = NULL) { node = theNode; }
+		iterator(const iterator& it) { node = it.node; }
 		T& operator*()const { return node->element; }
 		T* operator->()const { return &node->element; }
 
@@ -38,6 +44,17 @@ public:
 		{
 			iterator old = *this;
 			node = node->next;
+			return old;
+		}
+		iterator& operator--()
+		{
+			node = node->previous;
+			return *this;
+		}
+		iterator operator--(int)
+		{
+			iterator old = *this;
+			node = node->previous;
 			return old;
 		}
 		bool operator!=(const iterator right)const

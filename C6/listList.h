@@ -11,7 +11,7 @@ class listList
 public:
 	listList(int initialCapacity);
 	listList(const listList<T>& theList);
-	~listList() { delete element };
+	~listList() { delete element; }
 
 	//ADT method
 	bool empty()const { return element->empty(); }
@@ -65,7 +65,7 @@ listList<T>::listList(int initialCapacity)
 		throw illegalParameterValue(s.str());
 	}
 	element = new list<T>;
-	element->reserve(initialCapacity);
+	//element->reserve(initialCapacity);
 }
 template<typename T>
 listList<T>::listList(const listList<T>& theList)
@@ -73,30 +73,51 @@ listList<T>::listList(const listList<T>& theList)
 	element = new list<T>(*theList.element);
 }
 template<typename T>
-listList<T>::T& get(int theIndex)const
+T& listList<T>::get(int theIndex)const
 {
-
+	auto it = element->begin();
+	for (int i = 0; i < theIndex; i++)
+		it++;
+	return *it;
 }
 template<typename T>
 int listList<T>::indexOf(const T& theElement)const
 {
-
+	auto it = element->begin();
+	for (int i = 0; i < element->size(); i++)
+	{
+		if (*it == theElement)
+			return i;
+		it++;
+	}
 }
 template<typename T>
 void listList<T>::erase(int theIndex)
 {
 	checkIndex(theIndex);
-	element->erase(begin()+theIndex);
+	auto it = begin();
+	for (int i = 0; i < theIndex; i++)
+		it++;
+	element->erase(it);
 }
 template<typename T>
 void listList<T>::insert(int theIndex, const T& theElement)
 {
-	element->insert(begin() + theIndex, theElement);
+	auto it = begin();
+	for (int i = 0; i < theIndex; i++)
+		it++;
+	element->insert(it, theElement);
 }
 template<typename T>
 void listList<T>::output(ostream& out)const
 {
 	copy(element->begin(), element->end(), ostream_iterator<T>(out, " "));
+}
+template<typename T>
+ostream& operator<<(ostream& out, const listList<T>& theList)
+{
+	theList.output(out);
+	return out;
 }
 //additinoal method
 template<typename T>
@@ -107,44 +128,74 @@ void listList<T>::setSize(int theSize)
 template<typename T>
 void listList<T>::set(int theIndex, const T& theElement)
 {
-	*(element->begin() + theIndex) = theElement;
+	auto it = element->begin();
+	for (int i = 0; i < theIndex; i++)
+		it++;
+	*it = theElement;
 }
 template<typename T>
 void listList<T>::removeRange(int fromIndex, int toIndex)
 {
+	
 	for (int i = fromIndex; i <= toIndex; i++)
-		element->erase(fromIndex);
+	{
+		auto it = element->begin();
+		for (int i = 0; i < fromIndex; i++)
+			it++;
+		element->erase(it);
+	}
+		
 }
 template<typename T>
 int listList<T>::lastIndexOf(const T& theElement)const
 {
 	int theIndex = -1;
+	auto it = element->begin();
 	for (int i = 0; i < element->size(); i++)
-		if (*(element->begin() + i) == theElement)
+	{
+		if (*it == theElement)
 			theIndex = i;
+		it++;
+	}
 	return theIndex;
 }
 template<typename T>
 T& listList<T>::operator[](int theIndex)const
 {
-	return (element->begin() + theIndex);
+	auto it = element->begin();
+	for (int i = 0; i < theIndex; i++)
+		it++;
+	return *it;
 }
 template<typename T>
 bool listList<T>::operator==(const listList<T>& theList)
 {
 	if (element->size() != theList.element->size())
 		return false;
+	auto it = element->begin();
+	auto itt = theList.element->begin();
 	for (int i = 0; i < element->size(); i++)
-		if (*(element->begin() + i) != *(theList.element->begin() + i))
+	{
+		if (*it != *itt)
 			return false;
+		it++;
+		itt++;
+	}
 	return true;
 }
 template<typename T>
 bool listList<T>::operator!=(const listList<T>& theList)
 {
+	auto it = element->begin();
+	auto itt = theList.element->begin();
 	for (int i = 0; i < min(element->size(), theList.element->size()); i++)
-		if (*(element->begin() + i) != *(theList.element->begin() + i))
+	{
+		if (*it != *itt)
 			return true;
+		it++;
+		itt++;
+	}
+		
 	if (theList.element->size() != element->size())
 		return true;
 	return false;
@@ -153,9 +204,17 @@ template<typename T>
 bool listList<T>::operator<(const listList<T>& theList)
 {
 	int i = 0;
-	for (i = 0; i < min(element->size(),theList.element->size()); i++)
-		if (*(element->begin() + i) > *(theList.element->begin() + i))
+	auto it = element->begin();
+	auto itt = theList.element->begin();
+	for (i = 0; i < min(element->size(), theList.element->size()); i++)
+	{
+		if (*it < *itt)
+			return true;
+		else if (*it > *itt)
 			return false;
+		it++;
+		itt++;
+	}
 	if (element->size() >= theList.element->size())
 		return false;
 	return true;
@@ -165,94 +224,199 @@ template<typename T>
 bool listList<T>::operator>(const listList<T>& theList)
 {
 	int i = 0;
-	for (i = 0; i < element->size(); i++)
-		if (*(element->begin() + i) < *(theList.element->begin() + i))
+	auto it = element->begin();
+	auto itt = theList.element->begin();
+	for (i = 0; i < min(element->size(),theList.element->size()); i++)
+	{
+		if (*it < *itt)
 			return false;
-	if (i == element->size() - 1)
+		else if (*it > *itt)
+			return true;
+		it++;
+		itt++;
+	}
+	if (theList.element->size()>element->size())
 		return false;
 	return true;
 }
 template<typename T>
 bool listList<T>::operator<=(const listList<T>& theList)
 {
-	for (int i = 0; i < element->size(); i++)
-		if (*(element->begin() + i) > *(theList.element->begin() + i))
+	auto it = element->begin();
+	auto itt = theList.element->begin();
+	for (int i = 0; i < min(element->size(),theList.element->size()); i++)
+	{
+		if (*it > *itt)
 			return false;
-	if()
+		else if (*it < *itt)
+			return true;
+		it++;
+		itt++;
+	}
+		
+	if(element->size()>theList.element->size())
+		return false;
 	return true;
 }
 template<typename T>
 bool listList<T>::operator>=(const listList<T>& theList)
 {
-
+	auto it = element->begin();
+	auto itt = theList.element->begin();
+	for (int i = 0; i < min(element->size(), theList.element->size()); i++)
+	{
+		if (*it > *itt)
+			return true;
+		else if (*it < *itt)
+			return false;
+		it++;
+		itt++;
+	}
+	if (element->size() < theList.element->size())
+		return false;
+	return true;
 }
 template<typename T>
 void listList<T>::swap(listList<T>& theList)
 {
-
+	auto tmp = theList.element;
+	theList.element = element;
+	element = tmp;
 }
 template<typename T>
 void listList<T>::fromList(const arrayList<T>& theList)
 {
-
+	element->clear();
+	for (int i = 0; i < theList.size(); i++)
+		element->push_back(theList[i]);
 }
 template<typename T>
 void listList<T>::toList(arrayList<T>& theList)
 {
-
+	theList.clear();
+	auto it = element->begin();
+	for (int i = 0; i < element->size(); i++)
+	{
+		theList.push_back(*it);
+		it++;
+	}
 }
 template<typename T>
 void listList<T>::leftShift(const int& i)
 {
-
+	for (int j = 0; j < i; j++)
+		element->erase(element->begin());
 }
 template<typename T>
 void listList<T>::reverse()
 {
-
+	element->reverse();
 }
 template<typename T>
 void listList<T>::merge(listList<T>& listA, listList<T>& listB)
 {
-
+	this->clear();
+	auto it = listA.element->begin();
+	for (int i = 0; i < listA.size(); i++)
+	{
+		element->push_back(*it);
+		it++;
+	}
+	it = listB.element->begin();
+	for (int i = 0; i < listB.size(); i++)
+	{
+		element->push_back(*it);
+		it++;
+	}
+	listA.clear();
+	listB.clear();
 }
 template<typename T>
 void listList<T>::meld(listList<T>& listA, listList<T>& listB)
 {
-
+	element->clear();
+	auto it = listA.element->begin();
+	auto itt = listB.element->begin();
+	for (int i = 0; i < min(listA.element->size(), listB.element->size()); i++)
+	{
+		element->push_back(*it);
+		element->push_back(*itt);
+		it++;
+		itt++;
+	}
+	if (listA.element->size() > listB.element->size())
+	{
+		for (int i = listB.element->size(); i < listA.element->size(); i++)
+		{
+			element->push_back(*it);
+			it++;
+		}
+	}
+	if (listB.element->size() > listA.element->size())
+	{
+		for (int i = listA.element->size(); i < listB.element->size(); i++)
+		{
+			element->push_back(*itt);
+			itt++;
+		}
+	}
+	listA.element->clear();
+	listB.element->clear();
 }
 template<typename T>
 void listList<T>::split(listList<T>& listA, listList<T>& listB)
 {
-
+	listA.element->clear();
+	listB.element->clear();
+	auto it = element->begin();
+	for (int i = 0; i < element->size()/2; i++)
+	{
+		listA.element->push_back(*it);
+		it++;
+		if (i + 1 < element->size())
+		{
+			listB.element->push_back(*it);
+			it++;
+		}
+	}
 }
 template<typename T>
 void listList<T>::insertSort()
 {
-
+	element->sort();
 }
 template<typename T>
 void listList<T>::circularShift(const int& i)
 {
-
+	for (int j = 0; j < i; j++)
+	{
+		auto it = element->begin();
+		element->push_back(*it);
+		element->erase(it);
+	}
 }
 template<typename T>
 void listList<T>::zero()
 {
-
+	element->clear();//?difference with clear();
 }
 template<typename T>
 void listList<T>::push_back(const T& theElement)
 {
-
+	element->push_back(theElement);
 }
 template<typename T>
 void listList<T>::clear()
 {
-
+	element->clear();
 }
 template<typename T>
 void listList<T>::checkIndex(int theIndex)const
 {
-
+	if (theIndex < 0 || theIndex >= element->size())
+	{
+		ostringstream s;
+		s << "index =  " << theIndex << " size =  " << element->size();
+		throw illegalIndex(s.str());
+	}
 }
